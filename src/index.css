@@ -11,11 +11,10 @@
   padding: 0;
   list-style: none;
   color: var(--spotify-color);
-  background-color: var(--bg-color);
   font-weight: bolder;
 }
 
-* {
+html {
   background: #01102d
 }
 
@@ -52,6 +51,20 @@
   height: 100%;
 }
 
+.container__login__full {
+  background-image: url('./img/AI.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 100%;
+  border: 1px solid white;
+
+}
+
 .container__login__right {
   display: flex;
   border-radius: 5px;
@@ -76,8 +89,8 @@
 
 #profile__pic {
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 50px;
+  height: 50px;
 }
 
 #btnLogin {
@@ -108,4 +121,25 @@
   to {
     opacity: 1;
   }
+}
+
+.display__user {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.767);
+  z-index: 1;
+}
+
+.header__list {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  padding-left: 10px;
+}
+
+#resume__info {
+  margin-left: 10px;
 }
