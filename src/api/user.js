@@ -9,7 +9,7 @@ async function fetchProfile(token) {
 }
 
 async function getPlaylists(token) {
-	const result = await fetch(`${BASE_USER_SPOTIFY_URL}/playlists`, {
+	const result = await fetch(`${BASE_USER_SPOTIFY_URL}/playlists?limit=50`, {
 		method: "GET", headers: { Authorization: `Bearer ${token}` }
 	});
 
@@ -24,8 +24,17 @@ async function getAlbums(token) {
 	return await result.json();
 }
 
+async function getTracks(token) {
+	const result = await fetch(`${BASE_USER_SPOTIFY_URL}/tracks?limit=50`, {
+		method: "GET", headers: { Authorization: `Bearer ${token}` }
+	});
+
+	return await result.json();
+}
+
 export default {
 	fetchProfile,
 	getPlaylists,
-	getAlbums
+	getAlbums,
+	getTracks
 }

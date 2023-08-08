@@ -165,7 +165,6 @@ html {
 .container__user {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  height: 100vh;
   overflow-y: hidden;
   margin-top: 75px;
   background-color: #111111;
@@ -176,7 +175,12 @@ html {
   display: grid;
   max-height: 500px;
   background-color: black;
-  overflow-y: scroll;
+}
+
+.container__table {
+  background-color: black;
+  padding-left: 20px;
+  padding-right: 15px;
 }
 
 .playlist__card,
@@ -247,4 +251,83 @@ a {
 
 #album__item {
   margin-left: 2em;
+}
+
+#table {
+  width: 100%;
+  color: #f7f7f7;
+  border-collapse: collapse;
+  border-left: 1px solid;
+  box-shadow: 0px 1px 2px 2px rgba(255, 255, 255, 0.918);
+  justify-content: center;
+}
+
+td {
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+
+#table__body td {
+  font-weight: normal;
+}
+
+tr:nth-child(n + 4) {
+  visibility: hidden;
+}
+
+#table__head {
+  font-weight: bolder;
+  font-size: large;
+}
+
+.arrow {
+  border: solid #f7f7f7;
+  border-width: 0 4px 4px 0;
+  display: inline-block;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+#btnArrow {
+  background: transparent;
+  border: none;
+  padding-right: 20px;
+}
+
+.arrow:hover {
+  border: solid var(--spotify-color);
+  transition: all 0.5s ease-in-out;
+  border-width: 0 4px 4px 0;
+}
+
+ul {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  padding-inline-start: 0px;
+}
+
+#last__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  color: #f7f7f7;
+  border-bottom: 1px solid #f7f7f7;
+  border-left: 1px solid #f7f7f7;
+  border-right: 1px solid #f7f7f7;
+  border-collapse: collapse;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 2em;
+  margin-right: 5px;
 }
