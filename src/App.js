@@ -1,8 +1,8 @@
 import './App.css';
 import { LoginContext } from "./contexts/LoginContext";
 import Login from './components/Login';
-import GenerateToken from './components/GenerateToken';
-import UserInfo from './components/UserInfo';
+import GenerateToken from './components/Token';
+import UserInfo from './components/User';
 
 import { useContext, useState } from 'react';
 

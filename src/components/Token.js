@@ -4,7 +4,7 @@ import { fetchUser } from '../redux/reducers/userSlicer';
 import { Link } from 'react-router-dom';
 import { getToken } from '../redux/reducers/tokenSlicer';
 
-const GenerateToken = ({ props }) => {
+const GenerateToken = () => {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
 
