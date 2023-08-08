@@ -24,10 +24,18 @@ async function getAlbums(token) {
 	return await result.json();
 }
 
-async function getTracks(token) {
-	const result = await fetch(`${BASE_USER_SPOTIFY_URL}/tracks?limit=50`, {
-		method: "GET", headers: { Authorization: `Bearer ${token}` }
-	});
+async function getTracks(token, nextURL = undefined) {
+	let result;
+	if (nextURL) {
+		result = await fetch(nextURL, {
+			method: "GET", headers: { Authorization: `Bearer ${token}` }
+		});
+
+	} else {
+		result = await fetch(`${BASE_USER_SPOTIFY_URL}/tracks?limit=50`, {
+			method: "GET", headers: { Authorization: `Bearer ${token}` }
+		});
+	}
 
 	return await result.json();
 }

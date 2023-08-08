@@ -15,7 +15,6 @@ const GenerateToken = ({ props }) => {
 
         const payload = { clientId, code }
         dispatch(getToken(payload)).unwrap();
-        console.log('i fire once');
     }, [dispatch])
 
     async function getUserProfileInfo() {

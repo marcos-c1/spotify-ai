@@ -92,7 +92,7 @@ export const trackSlicer = createSlice({
             })
             .addCase(fetchTracks.fulfilled, (state, action) => {
                 state.loading = false;
-                state.data = { ...state.data, ...action.payload };
+                state.data = { ...action.payload };
                 state.hasData = true;
             })
             .addCase(fetchTracks.rejected, (state, action) => {
@@ -102,6 +102,40 @@ export const trackSlicer = createSlice({
                 state.hasData = false;
             })
     }
+})
+
+export const prevTrackSlicer = createSlice({
+    name: 'prevTrack',
+    initialState: { data: [], length: 0 },
+    reducers: {
+        addPrevTrack(state, action) {
+            switch (action.type) {
+                case 'prevTrack/addPrevTrack': {
+                    return {
+                        ...state,
+                        data: [
+                            ...state.data, action.payload
+                        ],
+                        length: state.length + 1
+                    }
+                }
+            }
+        },
+        removePrevTrack(state, action) {
+            switch (action.type) {
+                case 'prevTrack/removePrevTrack': {
+                    return {
+                        ...state,
+                        data: [
+                            ...state.data.filter((item) => item.href != action.payload.href)
+                        ],
+                        length: state.length - 1
+                    }
+                }
+
+            }
+        }
+    },
 })
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async (token) => {
@@ -119,7 +153,7 @@ export const fetchAlbuns = createAsyncThunk('user/fetchAlbuns', async (token) =>
     return data;
 })
 
-export const fetchTracks = createAsyncThunk('user/fetchTracks', async (token) => {
-    const data = await userAPI.getTracks(token);
+export const fetchTracks = createAsyncThunk('user/fetchTracks', async ({ token, nextURL = undefined }) => {
+    const data = await userAPI.getTracks(token, nextURL);
     return data;
 })

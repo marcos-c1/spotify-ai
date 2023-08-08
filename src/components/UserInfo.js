@@ -1,7 +1,7 @@
 import Header from './Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlaylists, fetchAlbuns, fetchTracks } from '../redux/reducers/userSlicer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const UserInfo = () => {
     const dispatch = useDispatch();
@@ -10,18 +10,52 @@ const UserInfo = () => {
     const playlist = useSelector((state) => state.playlist);
     const album = useSelector((state) => state.album);
     const track = useSelector((state) => state.track);
+    const prevTrack = useSelector((state) => state.prevTrack);
+
+    const [trackData, setTrackData] = useState([track]);
+    const [pagination, setPagination] = useState(50);
+    const [hasClickedPrev, setClickedPrev] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchPlaylists(token.data));
-        dispatch(fetchAlbuns(token.data));
-        dispatch(fetchTracks(token.data));
+        if (!playlist.hasData)
+            dispatch(fetchPlaylists(token.data));
+        if (!album.hasData)
+            dispatch(fetchAlbuns(token.data));
+        if (!track.hasData) {
+            const payload = {
+                token: token.data,
+                nextURL: undefined
+            }
+            dispatch(fetchTracks(payload));
+        }
     }, [dispatch])
 
     function toMinutes(duration_ms) {
-        const seconds = duration_ms * 0.001;
-        const minutes = seconds * 0.0166667;
-        return minutes.toFixed(2).toString().replace('.', ':');
+        var minutes = Math.floor(duration_ms / 60000);
+        var seconds = ((duration_ms % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
+
+    async function nextPage(nextURL) {
+        dispatch({ type: 'prevTrack/addPrevTrack', payload: track.data })
+        setPagination(pagination + 50);
+        setTrackData([...trackData, track.data]);
+        setClickedPrev(false);
+        const payload = {
+            token: token.data,
+            nextURL: nextURL
+        }
+        await dispatch(fetchTracks(payload)).unwrap();
+    }
+
+    function prevPage() {
+        if (prevTrack.length > 1) {
+            dispatch({ type: 'prevTrack/removePrevTrack', payload: prevTrack.data[prevTrack.length - 1] })
+        }
+        setPagination(pagination - 50);
+        setClickedPrev(true);
+    }
+
     return (
         <main>
             <section className='container__user'>
@@ -81,7 +115,7 @@ const UserInfo = () => {
                     <h2 style={{ textAlign: "left", marginLeft: "1.1em", paddingTop: "1em", paddingBottom: "0.5em" }}>Tracks</h2>
                     {track.loading && <div className="sidebar__loading"><h2 style={{ textAlign: "center" }}>Loading...</h2></div>}
                     {!track.loading && track.error ? <div style={{ textAlign: "center" }}>Error.. {track.error}</div> : null}
-                    {!track.loading && track.hasData ?
+                    {!track.loading && track.hasData && !hasClickedPrev ?
                         <table id="table">
                             <thead id="table__head">
                                 <tr>
@@ -106,17 +140,45 @@ const UserInfo = () => {
                                 )
                             })
                             }
-                        </table> : null}
+                        </table> : prevTrack.length > 0 && <table id="table">
+                            <thead id="table__head">
+                                <tr>
+                                    <td>Artist</td>
+                                    <td>Song name</td>
+                                    <td>Popularity</td>
+                                    <td>Duration</td>
+                                    <td>Is local?</td>
+                                </tr>
+                            </thead>
+                            {prevTrack.data[prevTrack.length - 1].items.map((item) => {
+                                return (
+                                    <tbody id="table__body">
+                                        <tr id="table__row">
+                                            <td id="table__data">{item.track.artists[0].name}</td>
+                                            <td id="table__item">{item.track.name}</td>
+                                            <td id="table__item">{item.track.popularity}</td>
+                                            <td id="table__item">{toMinutes(item.track.duration_ms)}</td>
+                                            <td id="table__item">{item.track.is_local ? "true" : "false"}</td>
+                                        </tr>
+                                    </tbody>
+                                )
+                            })
+                            }
+                        </table>}
                 </div>
-                <ul id="last__row">
-                    <span style={{ paddingRight: "1em" }}>Row pagination</span>
-                    <button id="btnArrow">
-                        <i class="arrow left"></i>
-                    </button>
-                    <button id="btnArrow">
-                        <i class="arrow right"></i>
-                    </button>
-                </ul>
+                {!track.loading && track.hasData ? (
+                    <ul id="last__row">
+                        <span style={{ paddingRight: "1em" }}>Row pagination</span>
+                        {pagination <= 50 ? null : (
+                            <button id="btnArrow" onClick={prevPage}>
+                                <i className="arrow left"></i>
+                            </button>
+                        )}
+                        <button id="btnArrow" onClick={() => nextPage(track.data.next)}>
+                            <i className="arrow right"></i>
+                        </button>
+                    </ul>
+                ) : null}
             </section>
         </main >
 
