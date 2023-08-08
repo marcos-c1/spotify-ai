@@ -1,18 +1,29 @@
 import './App.css';
 import { LoginContext } from "./contexts/LoginContext";
 import Login from './components/Login';
+import GenerateToken from './components/GenerateToken';
+import UserInfo from './components/UserInfo';
+
 import { useContext, useState } from 'react';
+
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
 	const defaultLogin = useContext(LoginContext);
 	const [login, setLogin] = useState(defaultLogin);
 
 	return (
-		<LoginContext.Provider value={[login, setLogin]}>
-			<div className="App">
-				<Login />
-			</div>
-		</LoginContext.Provider >
+		<Router>
+			<LoginContext.Provider value={[login, setLogin]}>
+				<div className="App">
+					<Routes>
+						<Route path='/' exact Component={Login} />
+						<Route path='/generateToken' Component={GenerateToken} />
+						<Route path='/user' exact Component={UserInfo} />
+					</Routes>
+				</div>
+			</LoginContext.Provider>
+		</Router>
 	);
 }
 

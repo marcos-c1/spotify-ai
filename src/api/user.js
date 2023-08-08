@@ -1,7 +1,7 @@
-import axios from "axios";
+const BASE_USER_SPOTIFY_URL = "https://api.spotify.com/v1/me"
 
 async function fetchProfile(token) {
-	const result = await fetch("https://api.spotify.com/v1/me", {
+	const result = await fetch(BASE_USER_SPOTIFY_URL, {
 		method: "GET", headers: { Authorization: `Bearer ${token}` }
 	});
 
@@ -9,7 +9,15 @@ async function fetchProfile(token) {
 }
 
 async function getPlaylists(token) {
-	const result = await fetch("https://api.spotify.com/v1/me/playlists", {
+	const result = await fetch(`${BASE_USER_SPOTIFY_URL}/playlists`, {
+		method: "GET", headers: { Authorization: `Bearer ${token}` }
+	});
+
+	return await result.json();
+}
+
+async function getAlbums(token) {
+	const result = await fetch(`${BASE_USER_SPOTIFY_URL}/albums?limit=50`, {
 		method: "GET", headers: { Authorization: `Bearer ${token}` }
 	});
 
@@ -18,5 +26,6 @@ async function getPlaylists(token) {
 
 export default {
 	fetchProfile,
-	getPlaylists
+	getPlaylists,
+	getAlbums
 }

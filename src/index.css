@@ -10,12 +10,12 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  color: var(--spotify-color);
   font-weight: bolder;
 }
 
 html {
-  background: #01102d
+  color: var(--spotify-color);
+  background: #01102d;
 }
 
 .container__login {
@@ -95,6 +95,7 @@ html {
 
 #btnLogin {
   /*background: #f7f7f736;*/
+  color: var(--spotify-color);
   background-color: black;
   border-radius: 10px;
   padding: 10px;
@@ -105,7 +106,24 @@ html {
   font-size: 1em;
 }
 
-#btnLogin:hover {
+#btnGeneratePlaylist {
+  color: black;
+  position: fixed;
+  right: 0;
+  margin-right: 10px;
+  background-color: var(--spotify-color);
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 20px;
+  width: fit-content;
+  align-self: center;
+  border: none;
+  font-size: 0.8em;
+}
+
+
+#btnLogin:hover,
+#btnGeneratePlaylist:hover {
   cursor: pointer;
   background: #f7f7f7;
   transition: 0.2s ease-in-out;
@@ -126,10 +144,10 @@ html {
 .display__user {
   width: 100%;
   position: fixed;
-  display: flex;
+  top: 0;
   justify-content: flex-start;
   backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.767);
+  background-color: rgba(0, 0, 0, 0.918);
   z-index: 1;
 }
 
@@ -137,9 +155,96 @@ html {
   display: flex;
   flex-direction: row;
   margin: 10px;
-  padding-left: 10px;
+  margin-left: 20px;
 }
 
 #resume__info {
+  margin-left: 25px;
+}
+
+.container__user {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100vh;
+  overflow-y: hidden;
+  margin-top: 75px;
+  background-color: #111111;
+}
+
+.container__playlist,
+.container__album {
+  display: grid;
+  max-height: 500px;
+  background-color: black;
+  overflow-y: scroll;
+}
+
+.playlist__card,
+.album__card {
+  color: #f7f7f7;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #111111;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.flex__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-left: 10px;
+}
+
+#playlist__total {
+  color: #f7f7f7;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--spotify-color);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: white;
+}
+
+#playlist:hover,
+#album:hover {
+  cursor: pointer;
+  color: var(--spotify-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#album__image {
+  width: 125px;
+  border-radius: 10px;
+}
+
+.flex__row {
+  display: flex;
+  flex-direction: row;
+}
+
+#album__item {
+  margin-left: 2em;
 }

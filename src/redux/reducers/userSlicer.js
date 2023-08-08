@@ -56,6 +56,30 @@ export const playlistSlice = createSlice({
     }
 })
 
+export const albumSlicer = createSlice({
+    name: 'album',
+    initialState: initialState,
+    reducers: {},
+    extraReducers(builder) {
+        builder
+            .addCase(fetchAlbuns.pending, (state, action) => {
+                state.loading = true;
+                state.hasData = false;
+            })
+            .addCase(fetchAlbuns.fulfilled, (state, action) => {
+                state.loading = false;
+                state.data = { ...state.data, ...action.payload };
+                state.hasData = true;
+            })
+            .addCase(fetchAlbuns.rejected, (state, action) => {
+                state.data = {};
+                state.loading = false;
+                state.error = action.error.message
+                state.hasData = false;
+            })
+    }
+})
+
 export const fetchUser = createAsyncThunk('user/fetchUser', async (token) => {
     const data = await userAPI.fetchProfile(token);
     return data;
@@ -63,5 +87,10 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (token) => {
 
 export const fetchPlaylists = createAsyncThunk('user/fetchPlaylists', async (token) => {
     const data = await userAPI.getPlaylists(token);
+    return data;
+})
+
+export const fetchAlbuns = createAsyncThunk('user/fetchAlbuns', async (token) => {
+    const data = await userAPI.getAlbums(token);
     return data;
 })
