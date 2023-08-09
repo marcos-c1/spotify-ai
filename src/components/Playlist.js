@@ -15,7 +15,7 @@ const Playlist = () => {
     return (
         <div className="container__playlist">
             <h2 style={{ textAlign: "left", marginLeft: "2em", marginTop: "1em" }}>Playlists</h2>
-            <div style={{ overflowY: "scroll" }}>
+            <div style={{ overflowY: "scroll" }} id="playlist__scrollbar__transparent">
                 {playlist.loading && <div className="sidebar__loading"><h2 style={{ textAlign: "center" }}>Loading...</h2></div>}
                 {!playlist.loading && playlist.error ? <div style={{ textAlign: "center" }}>Error.. {playlist.error}</div> : null}
                 {!playlist.loading && playlist.hasData ?

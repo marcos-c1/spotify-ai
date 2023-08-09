@@ -1,4 +1,5 @@
 const BASE_USER_SPOTIFY_URL = "https://api.spotify.com/v1/me"
+const BASE_SPOTIFY_URL = "https://api.spotify.com/v1";
 
 async function fetchProfile(token) {
 	const result = await fetch(BASE_USER_SPOTIFY_URL, {
@@ -40,9 +41,18 @@ async function getTracks(token, nextURL = undefined) {
 	return await result.json();
 }
 
+async function getArtists(token, artistsID) {
+
+	const result = await fetch(`${BASE_SPOTIFY_URL}/artists?ids=${artistsID}`, {
+		method: "GET", headers: { Authorization: `Bearer ${token}` }
+	});
+	return await result.json();
+}
+
 export default {
 	fetchProfile,
 	getPlaylists,
 	getAlbums,
-	getTracks
+	getTracks,
+	getArtists
 }

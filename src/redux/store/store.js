@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { userSlice, playlistSlice, albumSlicer, trackSlicer, prevTrackSlicer } from '../reducers/userSlicer';
+import { userSlice, playlistSlice, albumSlicer, trackSlicer, prevTrackSlicer, artistSlicer } from '../reducers/userSlicer';
 import { tokenSlice } from '../reducers/tokenSlicer';
 
 export default configureStore({
@@ -9,6 +9,7 @@ export default configureStore({
         album: albumSlicer.reducer,
         track: trackSlicer.reducer,
         token: tokenSlice.reducer,
-        prevTrack: prevTrackSlicer.reducer
+        prevTrack: prevTrackSlicer.reducer,
+        artist: artistSlicer.reducer
     }
 })

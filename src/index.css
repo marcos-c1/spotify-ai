@@ -16,6 +16,7 @@
 html {
   color: var(--spotify-color);
   background: #01102d;
+  overflow-x: hidden;
 }
 
 .container__login {
@@ -28,6 +29,75 @@ html {
   max-width: 700px;
   height: 500px;
   text-align: center;
+}
+
+.container__hero {
+  display: flex;
+  flex-direction: row;
+  filter: drop-shadow(10px 50px 1px #fdf9f9c0);
+  background: transparent;
+  border-radius: 10px;
+  height: 50vh;
+  text-align: center;
+}
+
+.container__hero__full {
+  background: transparent;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  margin-top: 5vh;
+  height: 100%;
+  width: 100%;
+}
+
+.container__fall__grid {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  z-index: -1;
+}
+
+.fall {
+  background: transparent;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  margin-left: 5vh;
+}
+
+.slow {
+  transition: all .3s ease-in-out;
+  animation: drop-down 3s 10s infinite;
+}
+
+.fast {
+  transition: all .3s ease-in-out;
+  animation: drop-down 3s 3s infinite;
+}
+
+@keyframes drop-down {
+  from {
+    top: -100px;
+    opacity: 1;
+  }
+
+  to {
+    top: 300px;
+    opacity: 0;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 50vh;
+  align-self: center;
+}
+
+.description {
+  text-align: center;
+  margin-top: 40px;
 }
 
 .align__center {
@@ -68,7 +138,6 @@ html {
 .container__login__right {
   display: flex;
   border-radius: 5px;
-
   height: 100%;
   background: var(--spotify-color);
   color: #f7f7f7;
@@ -165,7 +234,8 @@ html {
 .container__user {
   overflow-y: hidden;
   margin-top: 75px;
-  background-color: #111111;
+  background-color: #111111 !important;
+  overflow-x: hidden;
 }
 
 .container__grid {
@@ -216,8 +286,16 @@ html {
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+#playlist__scrollbar__transparent::-webkit-scrollbar-track {
   background: transparent;
+}
+
+#album__scrollbar__transparent::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #111111;
 }
 
 /* Handle */
@@ -347,5 +425,5 @@ ul {
 
 .sidebar__loading {
   display: flex;
-  align-items: center;
+  align-content: center;
 }

@@ -15,7 +15,7 @@ const Album = () => {
     return (
         <div className="container__album">
             <h2 style={{ textAlign: "left", marginLeft: "2em", marginTop: "1em" }}>Albums</h2>
-            <div style={{ overflowY: "scroll" }}>
+            <div style={{ overflowY: "scroll" }} id="album__scrollbar__transparent">
                 {album.loading && <div className="sidebar__loading"><h2 style={{ textAlign: "center" }}>Loading...</h2></div>}
                 {!album.loading && album.error ? <div style={{ textAlign: "center" }}>Error.. {album.error}</div> : null}
                 {!album.loading && album.hasData ?

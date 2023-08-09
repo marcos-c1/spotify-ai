@@ -138,6 +138,31 @@ export const prevTrackSlicer = createSlice({
     },
 })
 
+
+export const artistSlicer = createSlice({
+    name: 'artist',
+    initialState: initialState,
+    reducers: {},
+    extraReducers(builder) {
+        builder
+            .addCase(fetchArtists.pending, (state, action) => {
+                state.loading = true;
+                state.hasData = false;
+            })
+            .addCase(fetchArtists.fulfilled, (state, action) => {
+                state.loading = false;
+                state.data = { ...action.payload };
+                state.hasData = true;
+            })
+            .addCase(fetchArtists.rejected, (state, action) => {
+                state.data = {};
+                state.loading = false;
+                state.error = action.error.message
+                state.hasData = false;
+            })
+    }
+})
+
 export const fetchUser = createAsyncThunk('user/fetchUser', async (token) => {
     const data = await userAPI.fetchProfile(token);
     return data;
@@ -155,5 +180,10 @@ export const fetchAlbuns = createAsyncThunk('user/fetchAlbuns', async (token) =>
 
 export const fetchTracks = createAsyncThunk('user/fetchTracks', async ({ token, nextURL = undefined }) => {
     const data = await userAPI.getTracks(token, nextURL);
+    return data;
+})
+
+export const fetchArtists = createAsyncThunk('user/fetchArtists', async ({ token, artistsID }) => {
+    const data = await userAPI.getArtists(token, artistsID);
     return data;
 })
