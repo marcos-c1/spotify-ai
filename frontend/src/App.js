@@ -1,8 +1,9 @@
 import './App.css';
 import { LoginContext } from "./contexts/LoginContext";
-import Login from './components/Login';
-import GenerateToken from './components/Token';
-import UserInfo from './components/User';
+import LoginPage from './pages/Login';
+import TokenPage from './pages/Token';
+import UserPage from './pages/User';
+import LearningPage from './pages/Learning';
 
 import { useContext, useState } from 'react';
 
@@ -17,9 +18,10 @@ function App() {
 			<LoginContext.Provider value={[login, setLogin]}>
 				<div className="App">
 					<Routes>
-						<Route path='/' exact Component={Login} />
-						<Route path='/generateToken' Component={GenerateToken} />
-						<Route path='/user' exact Component={UserInfo} />
+						<Route path='/' exact Component={LoginPage} />
+						<Route path='/generateToken' Component={TokenPage} />
+						<Route path='/user' exact Component={UserPage} />
+						<Route path='/ml' exact Component={LearningPage} />
 					</Routes>
 				</div>
 			</LoginContext.Provider>
