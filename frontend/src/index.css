@@ -9,7 +9,6 @@
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  list-style: none;
   font-weight: bolder;
 }
 
@@ -73,6 +72,10 @@ html {
 .fast {
   transition: all .3s ease-in-out;
   animation: drop-down 3s 3s infinite;
+}
+
+ul {
+  list-style-type: none;
 }
 
 @keyframes drop-down {
@@ -202,6 +205,21 @@ html {
   font-size: 0.8em;
 }
 
+#goBack {
+  color: black;
+  position: fixed;
+  right: 0;
+  margin-right: 50px;
+  background-color: var(--spotify-color);
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 20px;
+  width: fit-content;
+  align-self: center;
+  border: none;
+  font-size: 0.8em;
+}
+
 #btnMadePlaylist {
   color: black;
   background-color: var(--spotify-color);
@@ -217,7 +235,9 @@ html {
 
 #btnLogin:hover,
 #btnMadePlaylist:hover,
-#btnGeneratePlaylist:hover {
+#goBack:hover,
+#btnGeneratePlaylist:hover,
+#btnTrain:hover {
   cursor: pointer;
   background: #f7f7f7;
   transition: 0.2s ease-in-out;
@@ -458,4 +478,64 @@ ul {
   padding-left: 10px;
   background-color: black;
   color: white;
+}
+
+.ml__main {
+  margin-top: 75px;
+  overflow-y: hidden;
+  background-color: #111111;
+}
+
+.container__ml {
+  display: flex;
+  flex-direction: row;
+}
+
+.section__intro,
+.section__classification {
+  width: 50%;
+}
+
+#learning__paragraph,
+#learning__list {
+  text-align: justify;
+  color: #f7f7f7;
+  font-weight: 400;
+}
+
+.section__intro,
+.section__classification {
+  margin-left: 5em;
+  margin-top: 5em;
+  margin-right: 5em;
+}
+
+#learning__list {
+  list-style: circle;
+  margin-left: 5em;
+  margin-bottom: 1em;
+}
+
+#learning__list>li {
+  font-weight: 400;
+}
+
+.draw__workflow {
+  color: var(--spotify-color);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+#right__arrow {
+  align-self: flex-start;
+  font-size: 4em;
+}
+
+#btnTrain {
+  padding: 0.8em;
+  margin-top: 2em;
+  background-color: var(--spotify-color);
+  border-radius: 10px;
+  border: none;
 }
