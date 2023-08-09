@@ -30,6 +30,7 @@ const Hero = () => {
                 <div className="wrapper">
                     <h2>Spotify API</h2>
                     <p className="description">Use an supervised machine learning algorithm to make a brand new playlist with your favorite songs!</p>
+                    <button id="btnMadePlaylist">Check it out</button>
                 </div>
             </div>
 

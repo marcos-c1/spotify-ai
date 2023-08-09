@@ -2,7 +2,7 @@ import Header from './Header';
 import Playlist from './Playlist';
 import Album from './Album';
 import Track from './Track';
-import Artist from './Artist';
+import Footer from './Footer';
 import Hero from './Hero';
 
 const UserInfo = () => {
@@ -21,9 +21,9 @@ const UserInfo = () => {
                 <Track />
             </section>
 
-            <section className='container__grid'>
-                <Artist />
-            </section>
+            <footer className="container__footer">
+                <Footer />
+            </footer>
         </main>
     )
 }
