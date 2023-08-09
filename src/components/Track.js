@@ -68,9 +68,9 @@ const Track = () => {
                             <td>Is local?</td>
                         </tr>
                     </thead>
-                    {track.data.items.map((item) => {
+                    {track.data.items.map((item, index) => {
                         return (
-                            <tbody id="table__body">
+                            <tbody id="table__body" key={index}>
                                 <tr id="table__row">
                                     <td id="table__data">{item.track.artists[0].name}</td>
                                     <td id="table__item">{item.track.name}</td>
@@ -92,9 +92,9 @@ const Track = () => {
                             <td>Is local?</td>
                         </tr>
                     </thead>
-                    {prevTrack.data[prevTrack.length - 1].items.map((item) => {
+                    {prevTrack.data[prevTrack.length - 1].items.map((item, index) => {
                         return (
-                            <tbody id="table__body">
+                            <tbody id="table__body" key={index}>
                                 <tr id="table__row">
                                     <td id="table__item">{item.track.artists[0].name}</td>
                                     <td id="table__item">{item.track.name}</td>

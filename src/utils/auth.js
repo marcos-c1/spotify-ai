@@ -1,6 +1,4 @@
-import axios from "axios";
-
-async function redirectToAuthCodeFlow(clientID: string) {
+async function redirectToAuthCodeFlow(clientID) {
     const verifier = generateCodeVerifier(128);
     localStorage.setItem("verifier", verifier);
     const challenge = await generateCodeChallenge(verifier);
@@ -17,7 +15,7 @@ async function redirectToAuthCodeFlow(clientID: string) {
     document.location = `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
 
-function generateCodeVerifier(length: number) {
+function generateCodeVerifier(length) {
     let text = '';
     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -27,7 +25,7 @@ function generateCodeVerifier(length: number) {
     return text;
 }
 
-async function generateCodeChallenge(codeVerifier: string) {
+async function generateCodeChallenge(codeVerifier) {
     const data = new TextEncoder().encode(codeVerifier);
     const digest = await window.crypto.subtle.digest('SHA-256', data);
     return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
@@ -36,7 +34,7 @@ async function generateCodeChallenge(codeVerifier: string) {
         .replace(/=+$/, '');
 }
 
-export async function getAccessToken(clientId: string, code: string): Promise<string> {
+export async function getAccessToken(clientId, code) {
     const verifier = localStorage.getItem("verifier");
     const params = new URLSearchParams();
     const port = 3000;
