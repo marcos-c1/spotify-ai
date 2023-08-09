@@ -8,7 +8,8 @@ const Header = () => {
     const token = useSelector((state) => state.token);
 
     useEffect(() => {
-        dispatch(fetchUser(token.data)).unwrap();
+        if (!user.hasData)
+            dispatch(fetchUser(token.data)).unwrap();
     }, [dispatch])
 
     return (

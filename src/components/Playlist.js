@@ -22,7 +22,7 @@ const Playlist = () => {
                     (playlist.data.items.map((item, index) => {
                         return (
                             item.tracks.total > 0 ?
-                                <a href={item.uri}>
+                                <a href={item.uri} key={index}>
                                     <ul className='playlist__card' id="playlist">
                                         <div className='flex__column'>
                                             <li id="playlist__item">{index + 1}. {item.name}</li>
