@@ -1,7 +1,46 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchArtists, fetchTracks } from '../redux/reducers/userSlicer';
 
 const Learning = () => {
+    const dispatch = useDispatch();
+    const track = useSelector((state) => state.track);
+    const token = useSelector((state) => state.token);
+    const [artistsID, setArtistsID] = useState([]);
+    const [idIndex, setIndex] = useState(0);
+
+    async function batchIDS() {
+        let items = track.data.items;
+        let tmpID = []
+        let ids = []
+        for (let i = 0; i < items.length; i++) {
+            let artists = items[i].track.artists;
+            for (let j = 0; j < artists.length; j++) {
+                if (tmpID.length == 50) {
+                    ids.push(tmpID.join(","));
+                    tmpID = []
+                }
+                tmpID.push(`${artists[j].id}`);
+            }
+        }
+        if (tmpID.length > 0) {
+            ids.push(tmpID.join(","));
+        }
+        artistsID.push(ids);
+        console.log(artistsID);
+        dispatch({ type: 'artist/addID', payload: artistsID })
+        if (track.data.next) {
+            await dispatch(fetchTracks({ token: token.data, nextURL: track.data.next })).unwrap();
+        }
+        document.getElementById("btnTrain").click();
+    }
+
+    async function batchGenres() {
+
+    }
+
     return (
         <main className="ml__main">
             <div className='container__ml'>
@@ -72,7 +111,24 @@ const Learning = () => {
                         Over each step, we will explain what happened, the feature's chosed, the learning algorithm used, and finally the metrics result. <br />
                         The first step will take a while. That's because the batch algorithm would gathered the data from spotify API to compose your CSV file.
                     </p>
-                    <button id="btnTrain">Generate playlist</button>
+                    {track.loading && artistsID.length ?
+                        <div className='flex__column'>
+                            <span>Loading ids into state</span>
+                        </div> : null}
+                    {!track.loading && !artistsID.length ? <button id="btnTrain" onClick={batchIDS}>Generate playlist</button> : (
+                        <>
+                            <button id="btnTrain" hidden onClick={batchIDS}>Generate playlist</button>
+                            {!track.loading ? (
+                                <div>
+                                    <p style={{ color: "#f7f7f7", fontWeight: "400", marginTop: "2em" }}>
+                                        All artists ids are loaded to state. Next phase is to get the genres for each artists.
+                                    </p>
+                                    <button id="btnGenres" onClick={batchGenres}>Get genres</button>
+                                </div>
+                            ) : null}
+
+                        </>
+                    )}
                 </section>
             </div>
             <Footer />
