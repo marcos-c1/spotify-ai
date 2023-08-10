@@ -138,11 +138,31 @@ export const prevTrackSlicer = createSlice({
     },
 })
 
+const initialStateArtist = {
+    data: {},
+    loading: false,
+    id: [],
+    length: 0,
+    error: '',
+    hasData: false,
+}
 
 export const artistSlicer = createSlice({
     name: 'artist',
-    initialState: initialState,
-    reducers: {},
+    initialState: initialStateArtist,
+    reducers: {
+        addID(state, action) {
+            if (action.type == 'artist/addID') {
+                return {
+                    ...state,
+                    id: [
+                        ...action.payload
+                    ],
+                    length: state.length + 1
+                }
+            }
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(fetchArtists.pending, (state, action) => {
@@ -151,7 +171,7 @@ export const artistSlicer = createSlice({
             })
             .addCase(fetchArtists.fulfilled, (state, action) => {
                 state.loading = false;
-                state.data = { ...action.payload };
+                state.data = { ...state.data, ...action.payload };
                 state.hasData = true;
             })
             .addCase(fetchArtists.rejected, (state, action) => {
