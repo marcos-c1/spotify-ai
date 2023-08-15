@@ -8,8 +8,10 @@ const Learning = () => {
     const dispatch = useDispatch();
     const track = useSelector((state) => state.track);
     const token = useSelector((state) => state.token);
+    const artist = useSelector((state) => state.artist);
     const [artistsID, setArtistsID] = useState([]);
     const [idIndex, setIndex] = useState(0);
+	const [secondIdIndex, setSecondIndex] = useState(0);
 
     async function batchIDS() {
         let items = track.data.items;
@@ -38,7 +40,23 @@ const Learning = () => {
     }
 
     async function batchGenres() {
+		console.log(idIndex, secondIdIndex);
+        const payload = {
+            token: token.data,
+            artistsID: artistsID[idIndex][secondIdIndex]
+        }
+		if(secondIdIndex == artistsID[idIndex].length - 1){
+			setSecondIndex(0);
+			setIndex(idIndex + 1);
+		} else {
+			setSecondIndex(secondIdIndex + 1);
+		}
 
+		if((idIndex == artistsID.length-1) && (secondIdIndex == artistsID[artistsID.length - 1].length-1)){
+			return;
+		}
+        await dispatch(fetchArtists(payload));
+		document.getElementById("btnGenres").click();
     }
 
     return (

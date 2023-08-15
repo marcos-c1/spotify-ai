@@ -139,7 +139,7 @@ export const prevTrackSlicer = createSlice({
 })
 
 const initialStateArtist = {
-    data: {},
+    data: [], 
     loading: false,
     id: [],
     length: 0,
@@ -171,7 +171,7 @@ export const artistSlicer = createSlice({
             })
             .addCase(fetchArtists.fulfilled, (state, action) => {
                 state.loading = false;
-                state.data = { ...state.data, ...action.payload };
+                state.data = [ ...state.data, action.payload ]
                 state.hasData = true;
             })
             .addCase(fetchArtists.rejected, (state, action) => {
