@@ -11,7 +11,18 @@ const Learning = () => {
     const artist = useSelector((state) => state.artist);
     const [artistsID, setArtistsID] = useState([]);
     const [idIndex, setIndex] = useState(0);
-	const [secondIdIndex, setSecondIndex] = useState(0);
+    const [secondIdIndex, setSecondIndex] = useState(0);
+    const [genres, setGenres] = useState([])
+
+    function downloadFile(data, index) {
+        console.log(data)
+        const element = document.createElement("a");
+        const textFile = new Blob([JSON.stringify(data)], { type: 'text/plain' });
+        element.href = URL.createObjectURL(textFile);
+        element.download = `artists_${index}.txt`;
+        document.body.appendChild(element);
+        element.click();
+    }
 
     async function batchIDS() {
         let items = track.data.items;
@@ -40,23 +51,26 @@ const Learning = () => {
     }
 
     async function batchGenres() {
-		console.log(idIndex, secondIdIndex);
+        console.log(idIndex, secondIdIndex);
         const payload = {
             token: token.data,
             artistsID: artistsID[idIndex][secondIdIndex]
         }
-		if(secondIdIndex == artistsID[idIndex].length - 1){
-			setSecondIndex(0);
-			setIndex(idIndex + 1);
-		} else {
-			setSecondIndex(secondIdIndex + 1);
-		}
+        if (secondIdIndex == artistsID[idIndex].length - 1) {
+            setSecondIndex(0);
+            setIndex(idIndex + 1);
+        } else {
+            setSecondIndex(secondIdIndex + 1);
+        }
 
-		if((idIndex == artistsID.length-1) && (secondIdIndex == artistsID[artistsID.length - 1].length-1)){
-			return;
-		}
+        if ((idIndex == artistsID.length - 1) && (secondIdIndex == artistsID[artistsID.length - 1].length - 1)) {
+            for (let i = 0; i < artist.data.length; i++) {
+                downloadFile(artist.data[i], i);
+            }
+            return;
+        }
         await dispatch(fetchArtists(payload));
-		document.getElementById("btnGenres").click();
+        document.getElementById("btnGenres").click();
     }
 
     return (
@@ -136,7 +150,7 @@ const Learning = () => {
                     {!track.loading && !artistsID.length ? <button id="btnTrain" onClick={batchIDS}>Generate playlist</button> : (
                         <>
                             <button id="btnTrain" hidden onClick={batchIDS}>Generate playlist</button>
-                            {!track.loading ? (
+                            {!track.loading && artist.data.length == 0 ? (
                                 <div>
                                     <p style={{ color: "#f7f7f7", fontWeight: "400", marginTop: "2em" }}>
                                         All artists ids are loaded to state. Next phase is to get the genres for each artists.
@@ -147,6 +161,24 @@ const Learning = () => {
 
                         </>
                     )}
+                    {artist.loading && artist.data.length > 0 ? (
+                        <div className='flex__column'>
+                            <span>Loading every artist info into text file</span>
+                        </div>
+                    ) : null}
+                    {!artist.loading && artist.data.length ? (
+                        <>
+                            <button hidden id="btnGenres" onClick={batchGenres}>Get genres</button>
+                            <div>
+                                <p style={{ color: "#f7f7f7", fontWeight: "400", marginTop: "2em" }}>
+                                    All artists information are saved to a textfile. With this data we can know get past to ML process.
+                                </p>
+                                <button id="btnAI" onClick={batchGenres}>Let the magic begin. AI time!</button>
+
+                            </div>
+                        </>
+
+                    ) : null}
                 </section>
             </div>
             <Footer />
