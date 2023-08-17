@@ -16,6 +16,8 @@ const Login = () => {
         if (!code) {
             auth.redirectToAuthCodeFlow(clientId);
         } else {
+            localStorage.setItem("code", code);
+
             const payload = { clientId, code }
             setLogin(payload);
             await dispatch(getToken(payload)).unwrap();

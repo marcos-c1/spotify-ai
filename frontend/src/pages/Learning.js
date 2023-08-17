@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchArtists, fetchTracks } from '../redux/reducers/userSlicer';
+import { fetchArtists, fetchTracks, postArtist, saveArtistToFile } from '../redux/reducers/userSlicer';
 
 const Learning = () => {
     const dispatch = useDispatch();
@@ -50,6 +50,11 @@ const Learning = () => {
         document.getElementById("btnTrain").click();
     }
 
+    async function saveArtistToServer() {
+        console.log('saving..')
+        await dispatch(saveArtistToFile(artist.data)).unwrap();
+    }
+
     async function batchGenres() {
         console.log(idIndex, secondIdIndex);
         const payload = {
@@ -64,9 +69,6 @@ const Learning = () => {
         }
 
         if ((idIndex == artistsID.length - 1) && (secondIdIndex == artistsID[artistsID.length - 1].length - 1)) {
-            for (let i = 0; i < artist.data.length; i++) {
-                downloadFile(artist.data[i], i);
-            }
             return;
         }
         await dispatch(fetchArtists(payload));
@@ -145,7 +147,7 @@ const Learning = () => {
                     </p>
                     {track.loading && artistsID.length ?
                         <div className='flex__column'>
-                            <span>Loading ids into state</span>
+                            <span id="loading__text">Loading ids into state</span>
                         </div> : null}
                     {!track.loading && !artistsID.length ? <button id="btnTrain" onClick={batchIDS}>Generate playlist</button> : (
                         <>
@@ -161,9 +163,9 @@ const Learning = () => {
 
                         </>
                     )}
-                    {artist.loading && artist.data.length > 0 ? (
+                    {artist.loading && !artist.saveToFile ? (
                         <div className='flex__column'>
-                            <span>Loading every artist info into text file</span>
+                            <span id="loading__text">Loading every artist info into the state</span>
                         </div>
                     ) : null}
                     {!artist.loading && artist.data.length ? (
@@ -171,9 +173,9 @@ const Learning = () => {
                             <button hidden id="btnGenres" onClick={batchGenres}>Get genres</button>
                             <div>
                                 <p style={{ color: "#f7f7f7", fontWeight: "400", marginTop: "2em" }}>
-                                    All artists information are saved to a textfile. With this data we can know get past to ML process.
+                                    All artists information are saved to the state. With this data we can now save all in your server.
                                 </p>
-                                <button id="btnAI" onClick={batchGenres}>Let the magic begin. AI time!</button>
+                                <button id="btnAI" onClick={saveArtistToServer}>Save data to server</button>
 
                             </div>
                         </>

@@ -564,3 +564,7 @@ ul {
   color: white;
   border: none;
 }
+
+#loading__text {
+  padding: 0.8em;
+}

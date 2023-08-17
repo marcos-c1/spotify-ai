@@ -9,8 +9,9 @@ const Header = ({ hasGenerateBtn }) => {
     const token = useSelector((state) => state.token);
 
     useEffect(() => {
-        if (!user.hasData)
+        if (!user.hasData) {
             dispatch(fetchUser(token.data)).unwrap();
+        }
     }, [dispatch])
 
     return (

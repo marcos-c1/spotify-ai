@@ -33,6 +33,12 @@ export const tokenSlice = createSlice({
 })
 
 export const getToken = createAsyncThunk('token/getAccessToken', async (payload) => {
+    /*const access_token = localStorage.getItem("access_token");
+
+    if (access_token) {
+        return access_token
+    } else {*/
     const data = await auth.getAccessToken(payload.clientId, payload.code);
     return data;
+    /*}*/
 })

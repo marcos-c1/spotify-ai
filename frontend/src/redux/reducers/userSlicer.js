@@ -139,12 +139,13 @@ export const prevTrackSlicer = createSlice({
 })
 
 const initialStateArtist = {
-    data: [], 
+    data: [],
     loading: false,
     id: [],
     length: 0,
     error: '',
     hasData: false,
+    saveToFile: false
 }
 
 export const artistSlicer = createSlice({
@@ -171,7 +172,7 @@ export const artistSlicer = createSlice({
             })
             .addCase(fetchArtists.fulfilled, (state, action) => {
                 state.loading = false;
-                state.data = [ ...state.data, action.payload ]
+                state.data = [...state.data, action.payload]
                 state.hasData = true;
             })
             .addCase(fetchArtists.rejected, (state, action) => {
@@ -180,30 +181,70 @@ export const artistSlicer = createSlice({
                 state.error = action.error.message
                 state.hasData = false;
             })
+            .addCase(postArtist.pending, (state, action) => {
+                state.loading = true;
+                state.hasData = false;
+            })
+            .addCase(postArtist.fulfilled, (state, action) => {
+                state.loading = false;
+                state.hasData = true;
+            })
+            .addCase(postArtist.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message
+                state.hasData = false;
+            })
+            .addCase(saveArtistToFile.pending, (state, action) => {
+                state.loading = true;
+                state.hasData = false;
+                state.saveToFile = false;
+            })
+            .addCase(saveArtistToFile.fulfilled, (state, action) => {
+                state.loading = false;
+                state.hasData = true;
+                state.saveToFile = true;
+            })
+            .addCase(saveArtistToFile.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message
+                state.hasData = false;
+                state.saveToFile = false;
+            })
     }
 })
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async (token) => {
-    const data = await userAPI.fetchProfile(token);
+    const data = await userAPI.fetchProfile(token).then((r) => r.data);
     return data;
 })
 
 export const fetchPlaylists = createAsyncThunk('user/fetchPlaylists', async (token) => {
-    const data = await userAPI.getPlaylists(token);
+    const data = await userAPI.getPlaylists(token).then((r) => r.data);
     return data;
 })
 
 export const fetchAlbuns = createAsyncThunk('user/fetchAlbuns', async (token) => {
-    const data = await userAPI.getAlbums(token);
+    const data = await userAPI.getAlbums(token).then((r) => r.data);
     return data;
 })
 
 export const fetchTracks = createAsyncThunk('user/fetchTracks', async ({ token, nextURL = undefined }) => {
-    const data = await userAPI.getTracks(token, nextURL);
+    const data = await userAPI.getTracks(token, nextURL).then((r) => r.data);
     return data;
 })
 
 export const fetchArtists = createAsyncThunk('user/fetchArtists', async ({ token, artistsID }) => {
-    const data = await userAPI.getArtists(token, artistsID);
+    const data = await userAPI.getArtists(token, artistsID).then((r) => r.data);
     return data;
+})
+
+export const postArtist = createAsyncThunk('user/postUser', async (artist) => {
+    const data = await userAPI.saveArtist(artist.external_urls, artist.followers, artist.genres, artist.href, artist.id, artist.images, artist.name, artist.popularity, artist.type, artist.uri)
+    return data;
+})
+
+export const saveArtistToFile = createAsyncThunk('user/saveToFile', async (artists) => {
+    const result = await userAPI.saveArtistToFile(JSON.stringify(artists)).then((r) => r.data);
+    console.log(result);
+    return result;
 })
