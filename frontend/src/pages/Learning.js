@@ -181,6 +181,16 @@ const Learning = () => {
                         </>
 
                     ) : null}
+                    <>
+                        <button hidden id="btnGenres" onClick={batchGenres}>Get genres</button>
+                        <div>
+                            <p style={{ color: "#f7f7f7", fontWeight: "400", marginTop: "2em" }}>
+                                Data saved to your server. Now it is AI time! <br />This phase will take a while..
+                            </p>
+                            <button id="btnTrain" onClick={saveArtistToServer}>Train and generate model</button>
+
+                        </div>
+                    </>
                 </section>
             </div>
             <Footer />

@@ -52,11 +52,15 @@ async function saveArtist(external_urls, followers, genres, href, id, images, na
 }
 
 async function saveArtistToFile(artists) {
-	return await axios.post(`http://localhost:5000/file`, { artists }, {
+	console.log(artists)
+	const response = await fetch('http://localhost:5000/file', {
+		method: "POST",
 		headers: {
-			'content-type': 'text/json'
-		}
+			'Content-Type': 'application/json'
+		},
+		body: artists
 	})
+	return response.json()
 }
 
 export default {

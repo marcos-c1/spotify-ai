@@ -22,14 +22,17 @@ const saveArtist = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 const saveToFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { artists } = req.body;
+    const artists = req.body;
     console.log(artists);
     const date = new Date();
     writeFile(`./output/artists_${date}.json`, JSON.stringify(artists), (err) => {
-        if (err)
+        if (err) {
             console.error(err);
+            res.status(500).json({ 'message': 'Cannot save to file.' });
+        }
         else {
             console.log("File written successfully!");
+            res.status(200).json({ 'message': 'Saved!' });
         }
     });
 });

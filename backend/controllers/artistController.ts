@@ -14,14 +14,17 @@ const saveArtist = async (req, res) => {
 }
 
 const saveToFile = async (req, res) => {
-    const { artists } = req.body;
+    const artists = req.body;
     console.log(artists);
     const date = new Date();
     writeFile(`./output/artists_${date}.json`, JSON.stringify(artists), (err: Error) => {
-        if (err)
+        if (err) {
             console.error(err);
+            res.status(500).json({ 'message': 'Cannot save to file.' })
+        }
         else {
             console.log("File written successfully!");
+            res.status(200).json({ 'message': 'Saved!' })
         }
     })
 }

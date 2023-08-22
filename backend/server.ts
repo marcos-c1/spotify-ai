@@ -6,23 +6,22 @@ import artistRoute from './routes/artistRoute';
 var cors = require('cors');
 
 dotenv.config();
-connect();
 
 const app: Express = express();
 const port = process.env.PORT;
 
-app.use(express.urlencoded({ extended: false, limit: '50mb' }));
-app.use(express.json({ limit: '50mb' }));
-
-app.get('/', function (req, res) {
-    //path.join(__dirname, '/index.html'
-    res.send('its working!');
-})
+app.use(express.urlencoded({ extended: false, limit: '20mb' }));
+app.use(express.json({ limit: '20mb' }));
 
 // CORS
 app.use(cors({
     origin: 'http://localhost:3000'
 }));
+
+app.get('/', function (req, res) {
+    //path.join(__dirname, '/index.html'
+    res.send('its working!');
+})
 
 // Routes
 app.use('/', artistRoute);

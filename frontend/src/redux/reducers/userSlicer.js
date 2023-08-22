@@ -244,7 +244,7 @@ export const postArtist = createAsyncThunk('user/postUser', async (artist) => {
 })
 
 export const saveArtistToFile = createAsyncThunk('user/saveToFile', async (artists) => {
-    const result = await userAPI.saveArtistToFile(JSON.stringify(artists)).then((r) => r.data);
+    const result = await userAPI.saveArtistToFile(JSON.stringify(artists));
     console.log(result);
     return result;
 })
